@@ -35,6 +35,19 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
+<!--        AOP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+<!--        fastJson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.78</version>
+        </dependency>
+
 <!--        datasource-->
         <dependency>
             <groupId>mysql</groupId>
