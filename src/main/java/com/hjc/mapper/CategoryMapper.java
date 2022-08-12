@@ -2,6 +2,7 @@ package com.hjc.mapper;
 
 import com.hjc.domain.Category;
 import com.hjc.domain.CategoryExample;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface CategoryMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Category record);
 
     int insertSelective(Category record);

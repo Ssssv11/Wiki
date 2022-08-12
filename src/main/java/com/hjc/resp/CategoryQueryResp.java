@@ -1,9 +1,7 @@
 package com.hjc.resp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class CategoryQueryResp {
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+
     private Long id;
 
     private Long parent;

@@ -21,7 +21,7 @@ insert into `demo` values (1, 'test1'),(2, 'test2');
 
 drop table if exists `ebook`;
 create table `ebook` (
-    `id` bigint not null comment 'id',
+    `id` bigint not null  AUTO_INCREMENT comment 'id',
     `name` varchar(50) comment '名称',
     `category1_id` bigint comment '分类1',
     `category2_id` bigint comment '分类2',
@@ -46,7 +46,7 @@ insert into `ebook` (id, name, description)
 
 drop table if exists `category`;
 create table `category` (
-    `id` bigint not null comment 'id',
+    `id` bigint not null  AUTO_INCREMENT comment 'id',
     `parent` bigint not null default 0 comment '父id',
     `name` varchar(50) not null comment '分类名',
     `sort` int comment '排序',

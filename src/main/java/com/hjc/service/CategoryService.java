@@ -10,7 +10,6 @@ import com.hjc.req.CategorySaveReq;
 import com.hjc.resp.CategoryQueryResp;
 import com.hjc.resp.PageResp;
 import com.hjc.utils.CopyUtil;
-import com.hjc.utils.SnowFlake;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -22,8 +21,6 @@ import java.util.List;
 public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
-    @Resource
-    private SnowFlake snowFlake;
 
     public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
         CategoryExample categoryExample = new CategoryExample();
@@ -57,7 +54,6 @@ public class CategoryService {
     public void save(CategorySaveReq req) {
         Category category = CopyUtil.copy(req, Category.class);
         if (ObjectUtils.isEmpty(req.getId())) {
-            category.setId(snowFlake.nextId());
             categoryMapper.insert(category);
         } else {
             categoryMapper.updateByPrimaryKey(category);

@@ -99,11 +99,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.hjc.domain.Category">
-    insert into category (id, parent, `name`, 
+    insert into category (parent, `name`,
       sort)
-    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+    values (#{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{sort,jdbcType=INTEGER})
   </insert>
+<!--  <insert id="insert" parameterType="com.hjc.domain.Category">-->
+<!--    insert into category (id, parent, `name`, -->
+<!--      sort)-->
+<!--    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, -->
+<!--      #{sort,jdbcType=INTEGER})-->
+<!--  </insert>-->
   <insert id="insertSelective" parameterType="com.hjc.domain.Category">
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides=",">

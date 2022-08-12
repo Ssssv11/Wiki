@@ -2,6 +2,7 @@ package com.hjc.mapper;
 
 import com.hjc.domain.Ebook;
 import com.hjc.domain.EbookExample;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface EbookMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Ebook record);
 
     int insertSelective(Ebook record);
