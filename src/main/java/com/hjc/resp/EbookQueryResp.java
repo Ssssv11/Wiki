@@ -3,7 +3,7 @@ package com.hjc.resp;
 import lombok.Data;
 
 @Data
-public class EbookResp {
+public class EbookQueryResp {
     private Long id;
 
     private String name;

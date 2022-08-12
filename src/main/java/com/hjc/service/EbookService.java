@@ -5,12 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.hjc.domain.Ebook;
 import com.hjc.domain.EbookExample;
 import com.hjc.mapper.EbookMapper;
-import com.hjc.req.EbookReq;
-import com.hjc.resp.EbookResp;
+import com.hjc.req.EbookQueryReq;
+import com.hjc.req.EbookSaveReq;
+import com.hjc.resp.EbookQueryResp;
 import com.hjc.resp.PageResp;
 import com.hjc.utils.CopyUtil;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,7 +22,7 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public PageResp<EbookResp> list(EbookReq req) {
+    public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         if (!StringUtils.isNullOrEmpty(req.getName())) {
@@ -29,10 +31,19 @@ public class EbookService {
         PageHelper.startPage(req.getPage(), req.getSize());
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
-        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
-        PageResp<EbookResp> pageResp = new PageResp<>();
+        List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
+        PageResp<EbookQueryResp> pageResp = new PageResp<>();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
+    }
+
+    public void save(EbookSaveReq req) {
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if (ObjectUtils.isEmpty(req.getId())) {
+            ebookMapper.insert(ebook);
+        } else {
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
     }
 }
