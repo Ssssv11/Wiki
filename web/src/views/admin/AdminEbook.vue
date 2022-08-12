@@ -131,7 +131,7 @@ export default defineComponent({
         dataIndex: 'voteCount'
       },
       {
-        title: 'Action',
+        title: '操作',
         key: 'action',
         slots: { customRender: 'action' }
       }
