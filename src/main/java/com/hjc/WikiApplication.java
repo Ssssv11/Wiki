@@ -14,7 +14,7 @@ public class WikiApplication {
     public static void main(String[] args) {
         Environment env = SpringApplication.run(WikiApplication.class, args).getEnvironment();
         LOG.info("Start Success!");
-        LOG.info("At: \thttp://127.0.0.1:{}", env.getProperty("server port"));
+        LOG.info("At: \thttp://127.0.0.1:{}", env.getProperty("server.port"));
     }
 
 }
