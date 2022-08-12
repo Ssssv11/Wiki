@@ -1,5 +1,6 @@
 package com.hjc.service;
 
+import com.github.pagehelper.PageHelper;
 import com.hjc.domain.Ebook;
 import com.hjc.domain.EbookExample;
 import com.hjc.mapper.EbookMapper;
@@ -23,6 +24,7 @@ public class EbookService {
         if (!StringUtils.isNullOrEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+        PageHelper.startPage(1, 5);
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
         return CopyUtil.copyList(ebookList, EbookResp.class);
     }
