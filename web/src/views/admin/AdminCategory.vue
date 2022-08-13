@@ -125,6 +125,7 @@ export default defineComponent({
     const handleQuery = () => {
       loading.value = true;
       categorys.value = [];
+      level1.value = [];
       axios.get("/category/listAll", {
         params: {
           name: param.value.name

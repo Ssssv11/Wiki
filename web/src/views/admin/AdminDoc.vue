@@ -63,17 +63,17 @@
         <a-input v-model:value="doc.name" />
       </a-form-item>
       <a-form-item label="父文档">
-        <a-select
+        <a-tree-select
             v-model:value="doc.parent"
-            ref="select"
+            style="width: 100%"
+            :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+            :tree-data="treeSelectData"
+            placeholder="请选择父文档"
+            tree-default-expand-all
+            :replaceFields="{title: 'name', key: 'id', value: 'id'}"
         >
-          <a-select-option :value="0">
-            无
-          </a-select-option>
-          <a-select-option v-for="c in level1" :key="c.id" :value="c.id" :disabled="doc.id === c.id">
-            {{c.name}}
-          </a-select-option>
-        </a-select>
+
+        </a-tree-select>
       </a-form-item>
       <a-form-item label="顺序">
         <a-input v-model:value="doc.sort" />
@@ -125,6 +125,7 @@ export default defineComponent({
     const handleQuery = () => {
       loading.value = true;
       docs.value = [];
+      level1.value = [];
       axios.get("/doc/listAll", {
         params: {
           name: param.value.name
@@ -142,6 +143,8 @@ export default defineComponent({
       });
     };
 
+    const treeSelectData = ref();
+    treeSelectData.value = [];
     const doc = ref({});
     const modalVisible = ref(false);
     const modalLoading = ref(false);
@@ -163,12 +166,16 @@ export default defineComponent({
     const edit = (record: any) => {
       modalVisible.value = true;
       doc.value = Tool.copy(record);
-      // docIds.value = [doc.value.doc1Id, doc.value.doc2Id]
+      treeSelectData.value = Tool.copy(level1.value);
+      setDisable(treeSelectData.value, record.id);
+      treeSelectData.value.unshift({id: 0, name: '无'});
     };
 
     const add = () => {
       modalVisible.value = true;
       doc.value = {};
+      treeSelectData.value = Tool.copy(level1.value);
+      treeSelectData.value.unshift({id: 0, name: '无'});
     };
 
     const handleDelete = (id: number) => {
@@ -178,6 +185,27 @@ export default defineComponent({
           handleQuery();
         }
       });
+    };
+
+    const setDisable = (treeSelectData: any, id: any) => {
+      for (let i = 0; i < treeSelectData.length; i++) {
+        const node = treeSelectData[i];
+        if (node.id === id) {
+          console.log("disabled", node);
+          node.disabled = true;
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            for (let j = 0; j < children.length; j++) {
+              setDisable(children, children[j].id)
+            }
+          }
+        } else {
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            setDisable(children, id);
+          }
+        }
+      }
     };
 
 
@@ -200,7 +228,8 @@ export default defineComponent({
       doc,
       modalVisible,
       modalLoading,
-      handleModalOk
+      handleModalOk,
+      treeSelectData
     }
   }
 });
