@@ -38,5 +38,5 @@ public interface DocMapper {
     @Update("update doc set vote_count = vote_count + 1 where id = #{id}")
     void increaseVoteCount(@Param("id") Long id);
 
-
+    public void updateEbookInfo();
 }
