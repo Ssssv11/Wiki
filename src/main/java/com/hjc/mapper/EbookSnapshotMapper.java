@@ -2,6 +2,7 @@ package com.hjc.mapper;
 
 import com.hjc.domain.EbookSnapshot;
 import com.hjc.domain.EbookSnapshotExample;
+import com.hjc.resp.StatisticResp;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface EbookSnapshotMapper {
     int updateByPrimaryKeySelective(EbookSnapshot record);
 
     int updateByPrimaryKey(EbookSnapshot record);
+
+    public void genSnapshot();
+
+    List<StatisticResp> getStatistic();
+
+    List<StatisticResp> get30Statistic();
 }

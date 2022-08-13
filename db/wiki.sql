@@ -125,3 +125,8 @@ create table `ebook_snapshot` (
     primary key (`id`),
     unique key `ebook_id_date_unique` (`ebook_id`)
 )  engine = innodb default charset = utf8mb4 comment 'ebook快照';
+
+
+select t1.`date` as `date`, sum(t1.view_increase) as viewIncrease, sum(t1.vote_increase) as voteIncrease from ebook_snapshot t1 where t1.`date` between date_sub(curdate(), interval 30 day) and date_sub(curdate(), interval 1 day) group by t1.`date` order by t1.`date` asc;
+
+select t1.`date` as `date`, sum(t1.view_count) as viewCount, sum(t1.vote_count) as voteCount, sum(t1.view_increase) as viewIncrease, sum(t1.vote_increase) as voteIncrease from ebook_snapshot t1 where t1.`date` >= date_sub(curdate(), interval 1 day) group by t1.`date` order by t1.`date` asc;

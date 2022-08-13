@@ -106,13 +106,9 @@
   </delete>
   <insert id="insert" parameterType="com.hjc.domain.Ebook">
     insert into ebook (`name`, category1_id, 
-      category2_id, description, cover, 
-      doc_count, view_count, vote_count
-      )
+      category2_id, description, cover)
     values ( #{name,jdbcType=VARCHAR}, #{category1Id,jdbcType=BIGINT},
-      #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
-      #{docCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{voteCount,jdbcType=INTEGER}
-      )
+      #{category2Id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR})
   </insert>
 <!--  <insert id="insert" parameterType="com.hjc.domain.Ebook">-->
 <!--    insert into ebook (id, `name`, category1_id, -->
