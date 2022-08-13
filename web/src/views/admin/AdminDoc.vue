@@ -83,11 +83,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue';
+import {createVNode, defineComponent, onMounted, ref} from 'vue';
 import axios from 'axios';
-import {message} from "ant-design-vue";
+import {message, Modal} from "ant-design-vue";
 import {Tool} from '@/utils/tool.ts'
 import {useRoute} from "vue-router";
+import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'AdminDoc',
@@ -182,12 +183,47 @@ export default defineComponent({
       treeSelectData.value.unshift({id: 0, name: '无'});
     };
 
-    const handleDelete = (id: number) => {
-      axios.delete("/doc/delete/" + id).then((response) => {
-        const data = response.data;
-        if (data.success) {
-          handleQuery();
+    const deleteIds: Array<string> = [];
+    const deleteNames: Array<string> = [];
+    const getDeleteIds = (treeSelectData: any, id: any) => {
+      for (let i = 0; i < treeSelectData.length; i++) {
+        const node = treeSelectData[i];
+        if (node.id === id) {
+          deleteIds.push(id);
+          deleteNames.push(node.name);
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            for (let j = 0; j < children.length; j++) {
+              getDeleteIds(children, children[j].id)
+            }
+          }
+        } else {
+          const children = node.children;
+          if (Tool.isNotEmpty(children)) {
+            getDeleteIds(children, id);
+          }
         }
+      }
+    };
+
+    const handleDelete = (id: number) => {
+      deleteIds.length = 0;
+      deleteNames.length = 0;
+      getDeleteIds(level1.value, id);
+      Modal.confirm({
+        title: '重要提醒',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '将删除：【' + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
+        onOk() {
+          axios.delete("/doc/delete/" + deleteIds.join(",")).then((response) => {
+            const data = response.data;
+            if (data.success) {
+              handleQuery();
+            } else {
+              message.error(data.message);
+            }
+          });
+        },
       });
     };
 
