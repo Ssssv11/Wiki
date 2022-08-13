@@ -5,13 +5,12 @@
           mode="inline"
           :style="{ height: '100%', borderRight: 0 }"
           @click="handleClick"
-          :openKeys="openKeys"
       >
         <a-menu-item key="welcome">
           <MailOutlined />
           <span>欢迎</span>
         </a-menu-item>
-        <a-sub-menu v-for="item in level1" :key="item.id" :disabled="true">
+        <a-sub-menu v-for="item in level1" :key="item.id" :disabled="false">
           <template v-slot:title>
             <span><user-outlined />{{item.name}}</span>
           </template>
@@ -27,7 +26,11 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
+      <div class="welcome" v-show="isShowWelcome">
+        <span>Welcome</span>
+      </div>
+
+      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks" v-show="!isShowWelcome">
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
             <template #actions>
@@ -80,6 +83,16 @@ export default defineComponent({
       });
     };
 
+    const isShowWelcome = ref(true);
+
+    const handleClick = (value: any) => {
+      if (value.key === 'welcome') {
+        isShowWelcome.value = true;
+      } else {
+        isShowWelcome.value = false;
+      }
+    }
+
     onMounted(() => {
       handleQueryCategory();
       axios.get("/ebook/list", {
@@ -108,6 +121,8 @@ export default defineComponent({
         { type: 'MessageOutlined', text: '2' },
       ],
       level1,
+      isShowWelcome,
+      handleClick,
     }
   }
 });
