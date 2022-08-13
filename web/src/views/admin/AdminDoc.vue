@@ -137,9 +137,7 @@ export default defineComponent({
 
     const level1 = ref();
     level1.value = [];
-    /**
-     * 数据查询
-     **/
+
     const handleQuery = () => {
       loading.value = true;
       docs.value = [];
@@ -177,8 +175,7 @@ export default defineComponent({
         modalLoading.value = false;
         const data = response.data;
         if (data.success) {
-          modalVisible.value = false;
-
+          message.success("保存成功!")
           handleQuery();
         } else {
           message.error(data.message);
@@ -189,12 +186,14 @@ export default defineComponent({
     const edit = (record: any) => {
       modalVisible.value = true;
       doc.value = Tool.copy(record);
+      handleQueryContent();
       treeSelectData.value = Tool.copy(level1.value);
       setDisable(treeSelectData.value, record.id);
       treeSelectData.value.unshift({id: 0, name: '无'});
     };
 
     const add = () => {
+      editor.txt.html("");
       modalVisible.value = true;
       doc.value = {
         ebookId: route.query.ebookId
@@ -266,6 +265,17 @@ export default defineComponent({
           }
         }
       }
+    };
+
+    const handleQueryContent = () => {
+      axios.get("/doc/find-content/" + doc.value.id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          editor.txt.html(data.content)
+        } else {
+          message.error(data.message);
+        }
+      });
     };
 
 
