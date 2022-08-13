@@ -1,6 +1,7 @@
 <template>
   <a-layout>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+      <h2 v-if="level1.length === 0" style="text-align: center">内容建设中..⛏</h2>
       <a-row>
         <a-col :span="6">
           <a-tree
