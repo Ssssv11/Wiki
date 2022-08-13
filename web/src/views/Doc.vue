@@ -24,6 +24,12 @@
             <a-divider style="height: 2px; background-color: #9999cc"/>
           </div>
           <div class="wangeditor" :innerHTML="html"></div>
+          <div class="vote-div">
+          <a-button size="large" shape="round" type="primary" @click="vote">
+            <template #icon><like-filled /></template>
+            点赞：{{doc.voteCount}}
+          </a-button>
+          </div>
         </a-col>
       </a-row>
     </a-layout-content>
@@ -88,6 +94,17 @@ export default defineComponent({
       }
     };
 
+    const vote = () => {
+      axios.get('/doc/vote/' + doc.value.id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          doc.value.voteCount++;
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
     onMounted(() => {
       handleQuery();
     });
@@ -97,15 +114,14 @@ export default defineComponent({
       html,
       onSelect,
       defaultSelectedKeys,
-      doc
+      doc,
+      vote
     }
   }
 });
 </script>
 
 <style>
-/* wangeditor默认样式, 参照: http://www.wangeditor.com/doc/pages/02-%E5%86%85%E5%AE%B9%E5%A4%84%E7%90%86/03-%E8%8E%B7%E5%8F%96html.html */
-/* table 样式 */
 .wangeditor table {
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
@@ -121,7 +137,6 @@ export default defineComponent({
   text-align: center;
 }
 
-/* blockquote 样式 */
 .wangeditor blockquote {
   display: block;
   border-left: 8px solid #d0e5f2;
@@ -132,7 +147,6 @@ export default defineComponent({
   background-color: #f1f1f1;
 }
 
-/* code 样式 */
 .wangeditor code {
   display: inline-block;
   *display: inline;
@@ -146,12 +160,10 @@ export default defineComponent({
   display: block;
 }
 
-/* ul ol 样式 */
 .wangeditor ul, ol {
   margin: 10px 0 10px 20px;
 }
 
-/* 和antdv p冲突，覆盖掉 */
 .wangeditor blockquote p {
   font-family:"YouYuan";
   margin: 20px 10px !important;
@@ -159,19 +171,16 @@ export default defineComponent({
   font-weight:600;
 }
 
-/* 点赞 */
 .vote-div {
   padding: 15px;
   text-align: center;
 }
 
-/* 图片自适应 */
 .wangeditor img {
   max-width: 100%;
   height: auto;
 }
 
-/* 视频自适应 */
 .wangeditor iframe {
   width: 100%;
   height: 400px;
