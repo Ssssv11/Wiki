@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.hjc.domain.Content;
 import com.hjc.domain.Doc;
 import com.hjc.domain.DocExample;
+import com.hjc.exception.BusinessException;
+import com.hjc.exception.BusinessExceptionCode;
 import com.hjc.mapper.ContentMapper;
 import com.hjc.mapper.DocMapper;
 import com.hjc.req.DocQueryReq;
@@ -12,6 +14,8 @@ import com.hjc.req.DocSaveReq;
 import com.hjc.resp.DocQueryResp;
 import com.hjc.resp.PageResp;
 import com.hjc.utils.CopyUtil;
+import com.hjc.utils.RedisUtil;
+import com.hjc.utils.RequestContext;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -25,6 +29,8 @@ public class DocService {
     private DocMapper docMapper;
     @Resource
     private ContentMapper contentMapper;
+    @Resource
+    private RedisUtil redisUtil;
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
         DocExample docExample = new DocExample();
@@ -90,6 +96,11 @@ public class DocService {
     }
 
     public void vote(Long id) {
-        docMapper.increaseVoteCount(id);
+        String ip = RequestContext.getRemoteAddr();
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 3600 * 24)) {
+            docMapper.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
     }
 }
