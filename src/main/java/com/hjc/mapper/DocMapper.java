@@ -4,6 +4,7 @@ import com.hjc.domain.Doc;
 import com.hjc.domain.DocExample;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -30,4 +31,7 @@ public interface DocMapper {
     int updateByPrimaryKeySelective(Doc record);
 
     int updateByPrimaryKey(Doc record);
+
+    @Update("update doc set view_count = view_count + 1 where id = #{id}")
+    void increaseViewCount(@Param("id") Long id);
 }

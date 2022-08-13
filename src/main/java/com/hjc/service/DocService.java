@@ -81,6 +81,7 @@ public class DocService {
 
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
+        docMapper.increaseViewCount(id);
         if (ObjectUtils.isEmpty(content)) {
             return "";
         } else {

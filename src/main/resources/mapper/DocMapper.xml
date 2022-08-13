@@ -102,12 +102,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.hjc.domain.Doc">
-    insert into doc (ebook_id, parent,
-      `name`, sort, view_count, 
-      vote_count)
+    insert into doc (ebook_id, parent, `name`, sort)
     values (#{ebookId,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT},
-      #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, 
-      #{voteCount,jdbcType=INTEGER})
+      #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
   </insert>
 <!--  <insert id="insert" parameterType="com.hjc.domain.Doc">-->
 <!--    insert into doc (id, ebook_id, parent, -->
