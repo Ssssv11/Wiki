@@ -43,13 +43,10 @@ public class DocService {
         return pageResp;
     }
 
-    public List<DocQueryResp> listAll(DocQueryReq req) {
+    public List<DocQueryResp> listAll(Long ebookId) {
         DocExample docExample = new DocExample();
+        docExample.createCriteria().andEbookIdEqualTo(ebookId);
         docExample.setOrderByClause("sort asc");
-        DocExample.Criteria criteria = docExample.createCriteria();
-        if (!StringUtils.isNullOrEmpty(req.getName())) {
-            criteria.andNameLike("%" + req.getName() + "%");
-        }
         List<Doc> docList = docMapper.selectByExample(docExample);
         List<DocQueryResp> list = CopyUtil.copyList(docList, DocQueryResp.class);
         return list;

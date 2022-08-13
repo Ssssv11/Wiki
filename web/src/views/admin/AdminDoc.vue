@@ -121,6 +121,8 @@ export default defineComponent({
     param.value = {};
     const docs = ref();
     const loading = ref(false);
+    const treeSelectData = ref();
+    treeSelectData.value = [];
 
     const columns = [
       {
@@ -142,25 +144,21 @@ export default defineComponent({
       loading.value = true;
       docs.value = [];
       level1.value = [];
-      axios.get("/doc/listAll", {
-        params: {
-          name: param.value.name
-        }
-      }).then((response) => {
+      axios.get("/doc/listAll/" + route.query.ebookId).then((response) => {
         loading.value = false;
         const data = response.data;
         if (data.success) {
           docs.value = data.content;
           level1.value = [];
           level1.value = Tool.array2Tree(docs.value, 0);
+          treeSelectData.value = Tool.copy(level1.value) || [];
+          treeSelectData.value.unshift({id: 0, name: '无'});
         } else {
           message.error(data.message);
         }
       });
     };
 
-    const treeSelectData = ref();
-    treeSelectData.value = [];
     const doc = ref();
     doc.value = {};
     const modalVisible = ref(false);
