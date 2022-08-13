@@ -9,6 +9,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: hjc
     password: Ssssv123
+  # Redis
+  redis:
+    host: r-uf6ljbcdaxobsifyctpd.redis.rds.aliyuncs.com
+    port: 6379
+    password: Redis000
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.hjc.mapper
@@ -19,3 +24,4 @@ logging:
     com:
       hjc:
         mapper: trace
+

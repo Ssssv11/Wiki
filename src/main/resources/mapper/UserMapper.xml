@@ -99,11 +99,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.hjc.domain.User">
-    insert into user (id, login_name, `name`, 
+    insert into user (login_name, `name`,
       `password`)
-    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{password,jdbcType=CHAR})
   </insert>
+<!--  <insert id="insert" parameterType="com.hjc.domain.User">-->
+<!--    insert into user (id, login_name, `name`, -->
+<!--      `password`)-->
+<!--    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, -->
+<!--      #{password,jdbcType=CHAR})-->
+<!--  </insert>-->
   <insert id="insertSelective" parameterType="com.hjc.domain.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">

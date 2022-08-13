@@ -2,6 +2,7 @@ package com.hjc.mapper;
 
 import com.hjc.domain.User;
 import com.hjc.domain.UserExample;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface UserMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(User record);
 
     int insertSelective(User record);

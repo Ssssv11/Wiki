@@ -8,14 +8,14 @@
       >
         <a-menu-item key="welcome">
           <MailOutlined />
-          <span>首页</span>
+          <span> 首页</span>
         </a-menu-item>
         <a-sub-menu v-for="item in level1" :key="item.id" :disabled="false">
           <template v-slot:title>
-            <span><user-outlined />{{item.name}}</span>
+            <span><user-outlined />&emsp;{{ item.name }} </span>
           </template>
           <a-menu-item v-for="child in item.children" :key="child.id">
-            <MailOutlined /><span>{{child.name}}</span>
+            <MailOutlined /><span>&emsp;{{ child.name }} </span>
           </a-menu-item>
         </a-sub-menu>
       </a-menu>
@@ -66,9 +66,7 @@ export default defineComponent({
 
     const level1 =  ref();
     let categorys: any;
-    /**
-     * 查询所有分类
-     **/
+
     const handleQueryCategory = () => {
       axios.get("/category/listAll").then((response) => {
         const data = response.data;
