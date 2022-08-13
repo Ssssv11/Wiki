@@ -2,6 +2,7 @@ package com.hjc.mapper;
 
 import com.hjc.domain.Content;
 import com.hjc.domain.ContentExample;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public interface ContentMapper {
 
     int deleteByPrimaryKey(Long id);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Content record);
 
     int insertSelective(Content record);

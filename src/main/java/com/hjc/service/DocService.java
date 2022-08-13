@@ -2,8 +2,10 @@ package com.hjc.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hjc.domain.Content;
 import com.hjc.domain.Doc;
 import com.hjc.domain.DocExample;
+import com.hjc.mapper.ContentMapper;
 import com.hjc.mapper.DocMapper;
 import com.hjc.req.DocQueryReq;
 import com.hjc.req.DocSaveReq;
@@ -21,6 +23,8 @@ import java.util.List;
 public class DocService {
     @Resource
     private DocMapper docMapper;
+    @Resource
+    private ContentMapper contentMapper;
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
         DocExample docExample = new DocExample();
@@ -53,10 +57,17 @@ public class DocService {
 
     public void save(DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             docMapper.insert(doc);
+            content.setId(doc.getId());
+            contentMapper.insert(content);
         } else {
             docMapper.updateByPrimaryKey(doc);
+            int count = contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            if (count == 0) {
+                contentMapper.insert(content);
+            }
         }
     }
 
