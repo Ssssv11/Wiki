@@ -4,7 +4,7 @@ import About from '../views/About.vue'
 import AdminEbook from '../views/admin/AdminEbook.vue'
 import AdminCategory from "@/views/admin/AdminCategory.vue";
 import AdminDoc from "@/views/admin/AdminDoc.vue";
-import Doc from "@/views/Doc.vue";
+import Doc from "../views/Doc.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
