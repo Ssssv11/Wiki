@@ -22,13 +22,13 @@ public class EbookSnapshotJob {
     private SnowFlake snowFlake;
 
 //    @Scheduled(cron = "0/30 * * * * ?")
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void doSnapshot() {
         MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
-        LOG.info("生成今日电子书快照开始");
+        LOG.info("生成今日Ebook快照开始");
         Long start = System.currentTimeMillis();
         ebookSnapshotService.genSnapshot();
-        LOG.info("生成今日电子书快照结束，耗时：{}毫秒", System.currentTimeMillis() - start);
+        LOG.info("生成今日Ebook快照结束，耗时：{}毫秒", System.currentTimeMillis() - start);
     }
 
 }
