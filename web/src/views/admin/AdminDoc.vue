@@ -78,7 +78,7 @@
                   :tree-data="treeSelectData"
                   placeholder="请选择父文档"
                   tree-default-expand-all
-                  :field-names="{key: 'id', label: 'name', value: 'id'}"
+                  :replaceFields="{key: 'id', label: 'name', value: 'id'}"
               >
 
               </a-tree-select>

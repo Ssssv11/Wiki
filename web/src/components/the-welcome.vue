@@ -128,23 +128,18 @@ export default defineComponent({
     setup () {
       const statistic = ref();
       statistic.value = {};
-      let statisticResp;
       const getStatistic = () => {
         axios.get('/ebook-snapshot/get-statistic').then((response) => {
           const data = response.data;
           if (data.success) {
-            statisticResp = data.content;
-            console.log(statisticResp);
-            // statistic.value.viewCount = statisticResp[1].viewCount;
-            // statistic.value.voteCount = statisticResp[1].voteCount;
-            statistic.value.viewCount = statisticResp[0].viewCount;
-            statistic.value.voteCount = statisticResp[0].voteCount;
-            statistic.value.todayViewCount = statisticResp[0].viewIncrease;
-            statistic.value.todayVoteCount = statisticResp[0].voteIncrease;
-
+            const statisticResp = data.content;
+            statistic.value.viewCount = statisticResp[1].viewCount;
+            statistic.value.voteCount = statisticResp[1].voteCount;
+            statistic.value.todayViewCount = statisticResp[1].viewIncrease;
+            statistic.value.todayVoteCount = statisticResp[1].voteIncrease;
             const now = new Date();
             const nowRate = (now.getHours() * 60 + now.getMinutes()) / (60 * 24);
-            statistic.value.todayViewIncrease = parseInt(String(statisticResp[0].viewIncrease / nowRate));
+            statistic.value.todayViewIncrease = parseInt(String(statisticResp[1].viewIncrease / nowRate));
             statistic.value.todayViewIncreaseRate = (statistic.value.todayViewIncrease - statisticResp[0].viewIncrease) / statisticResp[0].viewIncrease * 100;
             statistic.value.todayViewIncreaseRateAbs = Math.abs(statistic.value.todayViewIncreaseRate);
           }
